@@ -18,6 +18,7 @@ let userSchema = new Schema({
         unique: true
     },
     password: String,
+    email: String,
     userCategories: [String],
     tasks: [taskSchema]
 });
