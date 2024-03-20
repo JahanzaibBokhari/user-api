@@ -5,14 +5,21 @@ let mongoDBConnectionString = process.env.MONGO_URL;
 
 let Schema = mongoose.Schema;
 
+const taskSchema = new Schema({
+    name: String,
+    dateFrom: Date,
+    dateTo: Date,
+    category: String
+});
+
 let userSchema = new Schema({
     userName: {
         type: String,
         unique: true
     },
     password: String,
-    favourites: [String],
-    history: [String]
+    userCategories: [String],
+    tasks: [taskSchema]
 });
 
 let User;
