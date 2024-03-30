@@ -62,6 +62,16 @@ app.post("/api/user/login", (req, res) => {
         });
 });
 
+app.get("/api/user/tasks", passport.authenticate('jwt', { session: false }), (req, res) => {
+    userService.getTasks(req.user._id)
+        .then(data => {
+            res.json(data);
+        }).catch(msg => {
+            res.status(422).json({ error: msg });
+        })
+
+});
+
 userService.connect()
     .then(() => {
         app.listen(HTTP_PORT, () => { console.log("API listening on: " + HTTP_PORT) });
