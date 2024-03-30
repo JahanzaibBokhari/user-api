@@ -86,4 +86,15 @@ module.exports.checkUser = function (userData) {
     });
 };
 
+module.exports.getTasks = function (id) {
+    return new Promise(function (resolve, reject) {
 
+        User.findById(id)
+            .exec()
+            .then(user => {
+                resolve(user.tasks)
+            }).catch(err => {
+                reject(`Unable to get Tasks for user with id: ${id}`);
+            });
+    });
+}
