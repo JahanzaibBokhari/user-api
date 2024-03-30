@@ -62,6 +62,7 @@ app.post("/api/user/login", (req, res) => {
         });
 });
 
+//get tasks
 app.get("/api/user/tasks", passport.authenticate('jwt', { session: false }), (req, res) => {
     userService.getTasks(req.user._id)
         .then(data => {
