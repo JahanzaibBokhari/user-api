@@ -6,13 +6,17 @@ let mongoDBConnectionString = process.env.MONGO_URL;
 let Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-    name: String,
-    dateFrom: Date,
-    dateTo: Date,
-    category: String
+    id: {
+        type: Number,
+        unique: true
+    },
+    title: String,
+    startDate: Date,
+    endDate: Date,
+    notes: String
 });
 
-let userSchema = new Schema({
+const userSchema = new Schema({
     userName: {
         type: String,
         unique: true
@@ -86,15 +90,28 @@ module.exports.checkUser = function (userData) {
     });
 };
 
+// module.exports.getTasks = function (id) {
+//     return new Promise(function (resolve, reject) {
+
+//         User.findById(id)
+//             .exec()
+//             .then(user => {
+//                 resolve(user.tasks)
+//             }).catch(err => {
+//                 reject(`Unable to get Tasks for user with id: ${id}`);
+//             });
+//     });
+// }
+
 module.exports.getTasks = function (id) {
     return new Promise(function (resolve, reject) {
-
         User.findById(id)
+            .lean() // Convert the Mongoose document to plain JavaScript object
             .exec()
             .then(user => {
-                resolve(user.tasks)
+                resolve(user.tasks);
             }).catch(err => {
                 reject(`Unable to get Tasks for user with id: ${id}`);
             });
     });
-}
+};
